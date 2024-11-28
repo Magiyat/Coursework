@@ -1,5 +1,5 @@
 import React from 'react';
-// import api from "../services/http-common";
+import api from "../services/http-common";
 
 // const FState = () =>{
 //  users: [
@@ -12,9 +12,10 @@ import React from 'react';
 
 
 const Friends = () => {
+    
     return(
         <div>
-
+            list_users()
         </div>
     )
 }

@@ -9,6 +9,7 @@ function Navbar() {
             <nav>
                 {isAuthenticated ? <Link to="/user">User </Link> : <Link to="/">Home </Link>}
                 {isAuthenticated && <Link to="/chat">Chat</Link>}
+                {isAuthenticated && <Link to="/game">Game</Link>}
                 {isAuthenticated && <Link to="/friends">Friends</Link>}
                 {!isAuthenticated && <Link to="/registrations">Registrations</Link>}
                 {isAuthenticated ? <Link to="/logout">Logout </Link> : <Link to="/login">Login </Link>}

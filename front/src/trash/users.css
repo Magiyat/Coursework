@@ -1,0 +1,17 @@
+
+.avatar{
+    border-radius: 50%;
+    margin-top: 100px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+
+}
+/*.avatar{*/
+
+/*    borderRadius: '50%';*/
+/*    backgroundColor: 'blue';*/
+/*    display: 'flex';*/
+/*    alignItems: 'center';*/
+/*    justifyContent: 'center';*/
+/*}*/

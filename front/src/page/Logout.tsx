@@ -6,8 +6,8 @@ const Logout: React.FC = () => {
     const { clearToken } = useContext(AuthContext);
 
     const handleLogout = () => {
-        clearToken(); // Удаляем токен
-        window.location.href = "/login"; // Перенаправляем на страницу входа
+        clearToken();
+        window.location.href = "/login";
     };
 
     return (

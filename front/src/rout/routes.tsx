@@ -7,6 +7,7 @@ import Logout from '../page/Logout';
 import Reg from "../page/Registrations";
 import Friends from "../page/Friends";
 import Chat from "../page/Chat";
+import Game from "../page/Game";
 
 export const useRoutes = () => {
 
@@ -23,6 +24,7 @@ export const useRoutes = () => {
                     <Route path="/friends" element={<Friends />} />
                     <Route path='/user' element={<User />} />
                     <Route path="/logout" element={<Logout />} />
+                    <Route path="/game" element={<Game />} />
                 </Route>
 
             </Routes>

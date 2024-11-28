@@ -12,7 +12,6 @@ function Main() {
                     Login
                 </button>
 
-                {/*<a href="Login.tsx" className={'Log'}><span>Login</span></a>*/}
             </div>
             <div className={'main_but'}>
                 <Link to="/registrations">
@@ -20,7 +19,6 @@ function Main() {
                         Registration
                     </button>
                 </Link>
-                {/*<a href="Registrations.tsx" className={'reg'}><span>Registration</span></a>*/}
             </div>
         </div>
 

@@ -1,14 +1,12 @@
 import useAuth from '../hooks/useAuth';
 import React, {useState} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import api from "../services/http-common";
 // import {UserInfo} from "os";
 
 const RegistrationForm = () => {
     const { setToken } = useAuth()
     const navigate = useNavigate()
-    const location = useLocation()
-    const from = location.state?.from?.pathname || '/'
     // const [auth, setAuth] = useState(false);????
     const [state, setState] = useState<{
         username: string,
@@ -20,22 +18,53 @@ const RegistrationForm = () => {
         password: ''
     })
 
-    // export const TEST = '/test/api'
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Останавливаем перезагрузку страницы
+        const { username, email, password } = state;
+        // Простая проверка заполненности полей
+        if (!username || !email || !password) {
+            alert('Пожалуйста, заполните все поля');
+            return;
+        }
 
+        try {
+            // Отправка данных для регистрации
+            const response = await api.post('accounts/api/users/', { username, email, password });
+            // Получение токена
+            const { token } = response.data; // Извлекаем токен из ответа
+            console.log(token);
+            // Сохранение токена в localStorage
+            localStorage.setItem('token', token)
 
-    // Функция для проверки полей формы
+            // Установка токена в состояние и переход
+            setToken(token);
+            navigate('/user', { replace: true });
+
+        } catch (error) {
+            if (error == 400 ){
+                alert('Такой пользователь существует.');
+            }
+            else {
+                console.error('Ошибка при выполнении запроса:', error);
+                alert('Не удалось выполнить запрос. Попробуйте еще раз.');
+            }
+
+        }
+    };
+
     // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     //     event.preventDefault(); // Останавливаем перезагрузку страницы
     //     const {username, email, password} = state
     //     // Простая проверка заполненности полей
     //     if (username && email && password) {
-    //         api.post('api/users', { username, email, password }).then((response) => {
-    //             setToken(true); // указывает, что пользователь теперь авторизован.
-    //             const token = response.data.token;
-    //             localStorage.setItem('token', token);
-    //             // api.post(username).then((token) => {})
-    //             // localStorage.setItem('token', token)
-    //             navigate('/dashboard', {replace: true}); // перенаправляет пользователя на страницу /dashboard
+    //         axios.post('api/reg', { username, email, password }).then(() => {
+    //             axios.post('api/token/',{username}).then((response) => {
+    //                 const {token, refresh_token} = response.data;
+    //                 localStorage.setItem('token', token);
+    //                 localStorage.setItem('refresh_token', refresh_token);
+    //                 setToken(token);
+    //                 navigate('/user', {replace: true});
+    //             })
     //         }).catch((e) => {
     //             console.error('Ошибка при выполнении запроса:', e); // Логируем ошибку для отладки
     //             alert('Не удалось выполнить запрос.'); // Показываем пользователю сообщение об ошибке
@@ -44,25 +73,6 @@ const RegistrationForm = () => {
     //         alert('Пожалуйста, заполните все поля');
     //     }
     // };
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Останавливаем перезагрузку страницы
-        const {username, email, password} = state
-        // Простая проверка заполненности полей
-        if (username && email && password) {
-            api.post('api/reg', { username, email, password }).then((response) => {
-                const token = response.data.token;
-                localStorage.setItem('token', token);
-                setToken(token);
-                navigate('/user', {replace: true});
-            }).catch((e) => {
-                console.error('Ошибка при выполнении запроса:', e); // Логируем ошибку для отладки
-                alert('Не удалось выполнить запрос.'); // Показываем пользователю сообщение об ошибке
-            })
-        } else {
-            alert('Пожалуйста, заполните все поля');
-        }
-    };
 
     return (
         <div className={'login'}>

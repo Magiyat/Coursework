@@ -11,20 +11,18 @@ const Login = () => {
 
     const [state, setState] = useState<{
         username: string,
-        email: string,
         password: string
     }>({
         username: '',
-        email: '',
         password: ''
     })
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Останавливаем перезагрузку страницы
-        const {username, email, password} = state
+        const {username, password} = state
         // Простая проверка заполненности полей
-        if (username && email && password) {
-            api.post('api/users/', { username, email, password }).then((response) => {
-                const token = response.data.token;
+        if (username && password) {
+            api.post('accounts/api/token/', { username, password }).then((response) => {
+                const token = response.data;
                 localStorage.setItem('token', token);
                 setToken(token); // указывает, что пользователь теперь авторизован.
                 navigate('/user', {replace: true}); // перенаправляет пользователя на страницу
@@ -43,11 +41,9 @@ const Login = () => {
                 <form className="authorization" onSubmit={handleSubmit}>
                     <p className="title">log in</p>
                     <input className={'input-container'} type="text" name="username" value={state.username}
-                           onChange={(e) => setState((p) => ({...p, username: e.target.value}))} maxLength={10} placeholder="Username"/>
-                    <input className={'input-container'} type="email" name="email" value={state.email}
-                           onChange={(e) => setState((p) => ({...p, email: e.target.value}))} placeholder="Email"/>
+                           onChange={(e) => setState((p) => ({...p, username: e.target.value}))} maxLength={40} placeholder="Username"/>
                     <input className={'input-container'} type="password" name="password" value={state.password}
-                           onChange={(e) => setState((p) => ({...p, password: e.target.value}))} maxLength={10} placeholder="Password"/>
+                           onChange={(e) => setState((p) => ({...p, password: e.target.value}))} maxLength={20} placeholder="Password"/>
                     <button className={'l_but'}>log in</button>
                     {/*<input*/}
                     {/*    type="submit"*/}
