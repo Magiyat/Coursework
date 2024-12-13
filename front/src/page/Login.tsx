@@ -23,7 +23,7 @@ const Login = () => {
         if (username && password) {
             api.post('accounts/api/token/', { username, password }).then((response) => {
                 const token = response.data;
-                localStorage.setItem('token', token);
+                localStorage.setItem('token', JSON.stringify(token));
                 setToken(token); // указывает, что пользователь теперь авторизован.
                 navigate('/user', {replace: true}); // перенаправляет пользователя на страницу
             }).catch((e) => {

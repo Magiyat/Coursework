@@ -12,7 +12,7 @@ export const AutoAvatar: FC<ComponentProps<'img'> & { userId: any; size: number 
     });
 
     return base64 ? (
-        <div style={{ backgroundColor: 'rgb(225,225,225)', display: 'flex' }}>
+        <div style={{ backgroundColor: 'rgba(150,163,169,0.15)', display: 'inline-block' }}>
             <img
                 {...imgProps}
                 src={`data:image/svg+xml;base64,${base64}`}

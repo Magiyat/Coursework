@@ -2,6 +2,7 @@ body{
   /*background: linear-gradient(164deg, rgba(9,135,192,1) 0%, rgb(13, 51, 136) 15%, rgba(5,35,103,1) 34%, rgba(4,11,82,1) 67%, rgba(0,3,36,1) 100%);*/
   background: linear-gradient(315deg, rgb(16, 18, 44) 0%, rgb(2, 11, 31) 100%);
   min-height: 100vh;
+  color: #ffefef;
 }
 .app{
   font-family: Arial;
