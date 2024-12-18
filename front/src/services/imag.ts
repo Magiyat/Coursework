@@ -1,48 +1,62 @@
 import api from "./http-common";
-import React, { useState, useEffect } from 'react';
 
-async function UserId(): Promise<any> {
-    const [userId, setUserId] = useState<number | null>(null);
-    try {
-        // Выполнение POST-запроса
-        api.get('accounts/api/users').then((response) => {
-            const id = Number(response.data.userId); // Преобразуем userId в число
-            setUserId(id);
-        });
-    } catch (error) {
-        console.error('Ошибка', error);
-    }
-}
 
-async function GetUsName() {
-    const [userName, setUserName] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    useEffect(() => {
-        const fetchUserName = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                console.log(token)
-
-                // Получение токена
-                if (!token) throw new Error('Токен не найден');
-
-                // Выполнение GET-запроса с токеном
-                const response = await api.get('accounts/api/users', {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Передача токена в заголовке
-                    },
-                });
-
-                const name = response.data.username; // Извлечение имени из ответа
-                setUserName(name);
-                console.log('hhhh')
-                console.log(name)
-            } catch (err: any) {
-                setError(err.message || 'Ошибка при получении данных');
+// function UserId() {
+//     const [userId, setUserId] = useState<number | null>(null); // Состояние для хранения userId
+//     const [error, setError] = useState<string | null>(null);   // Состояние для ошибок
+//
+//     useEffect(() => {
+//         const fetchUserId = async () => {
+//             try {
+//                 // Выполнение GET-запроса
+//                 const response = await api.get('accounts/api/users/');
+//                 const id = Number(response.data.userId); // Преобразование userId в число
+//                 console.log('User ID:', id);
+//                 setUserId(id);
+//             } catch (err) {
+//                 console.error('Ошибка при получении данных:', err);
+//                 setError('Не удалось загрузить userId');
+//             }
+//         };
+//
+//         fetchUserId();
+//     }, []);
+// }
+//
+// const FileUploadService = {
+//     UserId,
+// };
+const FileUploadService = {
+    async getUserId(): Promise<number | null> {
+        try {
+            const storedToken = localStorage.getItem('token');
+            if (!storedToken) {
+                throw new Error('Токен не найден');
             }
-        };
-    })
+            const token = JSON.parse(storedToken);
+            if (!token.access) {
+                throw new Error('Access-токен отсутствует');
+            }
+            if (!token) {
+                throw new Error('Токен не найден');
+            }
+            const response = await api.get('profiles/api/profile/', {
+                headers: {
+                    Authorization: "Bearer " + token.access, // Передача токена в заголовке
+                },
+            });
+            const id = Number(response.data.id);
+            return id;
+        } catch (err) {
+            console.error('Ошибка при получении userId:', err);
+            return null;
+        }
+    },
 };
+
+export default FileUploadService;
+
+
     // try {
     //     const token = localStorage.getItem('token'); // Получение токена
     //     if (!token) throw new Error('Токен не найден');
@@ -79,9 +93,3 @@ async function GetUsName() {
 // };
 // Вызов функции
 
-const FileUploadService = {
-    UserId,
-    GetUsName,
-};
-
-export default FileUploadService;

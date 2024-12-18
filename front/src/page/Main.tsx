@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../trash/button_main.css'
 import {Link, useNavigate} from 'react-router-dom';
+import useAuth from "../hooks/useAuth";
 function Main() {
     const navigate = useNavigate()
+    const { token } = useAuth()
+    useEffect(() => {
+        if (token) {
+            navigate('/user')
+        }
+    }, [token])
     return (
         <div className={'main'}>
 

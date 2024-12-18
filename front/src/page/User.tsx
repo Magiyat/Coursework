@@ -1,15 +1,26 @@
-import React, {createRef} from "react";
+import React, {createRef, useEffect, useState} from "react";
 import {AutoAvatar} from "../uset-comp/avatar";
 import '../trash/users.css'
 import FileUploadService from "../services/imag";
+import GetUsName from "../services/nameuser";
 function User() {
     const fileRef = createRef<HTMLInputElement>();
-    const id = FileUploadService.UserId
-    const userName = String(FileUploadService.GetUsName())
+    const [id, setId] = useState<number | null>(null); // Состояние для хранения userId
+
+    // Загружаем userId при монтировании компонента
+    useEffect(() => {
+        const fetchUserId = async () => {
+            const fetchedId = await FileUploadService.getUserId();
+            console.log('Полученный User ID:', fetchedId);
+            setId(fetchedId); // Сохраняем userId в состоянии
+        };
+
+        fetchUserId();
+    }, []);
+
     const onFileInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         console.log(e.target?.files?.[0]);
     }
-    console.log(userName);
     return(
         <>
             <div className={'avatar'}>
@@ -24,7 +35,7 @@ function User() {
             </div>
 
             <div className={'usName'}>
-                {userName ? <p>Имя: {userName}</p> : <p>Имя не указано</p>}
+                <GetUsName/>
             </div>
         </>
     )

@@ -1,14 +1,21 @@
 import useAuth from '../hooks/useAuth';
 import {Link, useNavigate} from 'react-router-dom';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import api from "../services/http-common";
 import '../trash/but_log.css'
+import {AxiosError} from "axios";
 
 const Login = () => {
     const { setToken } = useAuth()
     const navigate = useNavigate()
     const s = 'ssssssss';
-
+    const { token } = useAuth()
+    useEffect(() => {
+        if (token) {
+            navigate('/user')
+        }
+    }, [token])
+    
     const [state, setState] = useState<{
         username: string,
         password: string
@@ -26,12 +33,20 @@ const Login = () => {
                 localStorage.setItem('token', JSON.stringify(token));
                 setToken(token); // указывает, что пользователь теперь авторизован.
                 navigate('/user', {replace: true}); // перенаправляет пользователя на страницу
-            }).catch((e) => {
-                console.error('Ошибка при выполнении запроса:', e); // Логируем ошибку для отладки
-                alert('Не удалось выполнить запрос.'); // Показываем пользователю сообщение об ошибке
+            }).catch((error) => {
+                const axiosError = error as AxiosError;
+                console.error('Ошибка при выполнении запроса:', axiosError);
+
+                if (axiosError.response && axiosError.response.data) {
+                    console.log('Ответ сервера:', axiosError.response.data);
+                    alert(`Ошибка: ${JSON.stringify(axiosError.response.data)}`);
+                } else {
+                    alert('Произошла ошибка при соединении с сервером.');
+                }
             })
         } else {
             alert('Пожалуйста, заполните все поля');
+
         }
     };
 
