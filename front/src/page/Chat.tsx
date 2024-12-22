@@ -1,12 +1,13 @@
 import React, {useState} from "react";
 import { Messages} from "../Messenger/Messages";
 import {ChatList} from "../Messenger/chatrooms";
+import '../trash/chat.css'
 
 
 const Chat = () => {
     const [selectedChatName, setSelectedChatName] = useState<string | null>(null);
     return(
-        <div>
+        <div className={'ChatPage'}>
             <ChatList onSelectChat={setSelectedChatName} />
             {selectedChatName ? (
                 <Messages chatName={selectedChatName} />

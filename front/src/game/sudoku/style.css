@@ -48,14 +48,17 @@
 .container .grid {
     border-radius: 6px;
     border: 4px solid #dfdfde;
-    display: grid;
+    display: flex;
     gap: 4px;
     grid-template-columns: repeat(9, 1fr);
     padding: 6px;
 }
 
 .container .grid .row {
-    display: grid;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
     gap: 4px;
 }
 
@@ -83,10 +86,17 @@
     border: none;
 }
 
+.container .grid .row:nth-child(3n + 3) {
+    margin-right: 4px;
+}
+
 .container .grid .row .cell:nth-child(3n + 3) {
     margin-bottom: 4px;
 }
 
-.container .grid .row .cell:nth-child(3n + 9) {
+.container .grid .row:last-child {
+    margin-right: 0;
+}
+.container .grid .row .cell:last-child {
     margin-bottom: 0;
 }

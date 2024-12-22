@@ -53,15 +53,14 @@ export const ChatList: React.FC<ChatListProps> = ({ onSelectChat }) => {
 
     return (
         <div>
-            <h3>Chat Rooms</h3>
             <CreateChatList/>
-            <ul>
-                {chatRooms.map((chatRoom) => (
-                    <li key={chatRoom.id}>
-                        <button onClick={() => onSelectChat(chatRoom.name)}>{chatRoom.display_name}</button>
-                    </li>
+            <div className={'ChatRoomsGroup'}>
+                {chatRooms.filter((el) => el.members.length !== 1).map((chatRoom) => (
+                    <div key={chatRoom.id}>
+                        <button className={'ChatRoomsName'} onClick={() => onSelectChat(chatRoom.name)}>{chatRoom.display_name}</button>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

@@ -9,8 +9,6 @@ export type ChatRoomsType = {
     "display_name": string,
 }
 
-
-
 export const CreateChatList: React.FC = () =>{
     const [userName, setUserName] = useState('')
     const [roomDate, setRoomDate] = useState<ChatRoomsType | null>()
@@ -50,8 +48,8 @@ export const CreateChatList: React.FC = () =>{
 
     return(
         <>
-            <textarea onChange={(e)=>setUserName(e.currentTarget.value)} value={userName}> </textarea>
-            <button onClick={Find}>Найти</button>
+            <textarea className={'chat_text_us'} onChange={(e)=>setUserName(e.currentTarget.value)} value={userName}> </textarea>
+            <button className={'chat_button'} onClick={Find}>Найти</button>
         </>
 
 )

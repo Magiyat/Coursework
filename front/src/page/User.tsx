@@ -3,7 +3,8 @@ import {AutoAvatar} from "../uset-comp/avatar";
 import '../trash/users.css'
 import FileUploadService from "../services/imag";
 import GetUsName from "../services/nameuser";
-function User() {
+
+const User_info: React.FC = () => {
     const fileRef = createRef<HTMLInputElement>();
     const [id, setId] = useState<number | null>(null); // Состояние для хранения userId
 
@@ -22,7 +23,7 @@ function User() {
         console.log(e.target?.files?.[0]);
     }
     return(
-        <>
+        <div className={'user_info'}>
             <div className={'avatar'}>
                 <AutoAvatar userId={id} size={300} />
                 <input
@@ -34,10 +35,17 @@ function User() {
                 />
             </div>
 
-            <div className={'usName'}>
+            <div className={'user_Name'}>
                 <GetUsName/>
             </div>
-        </>
+        </div>
+    )
+}
+function User() {
+    return(
+        <div className={'user_profile'}>
+            <User_info/>
+        </div>
     )
 }
 

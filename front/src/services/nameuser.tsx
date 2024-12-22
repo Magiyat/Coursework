@@ -30,7 +30,7 @@ const GetUsName: React.FC = () => {
 
                 // Извлечение имени из ответа
                 const name = response.data.username;
-
+                localStorage.setItem('username', name);
                 setUserName(name);
                 console.log('Имя пользователя:', name);
             } catch (err: any) {
@@ -50,6 +50,6 @@ const GetUsName: React.FC = () => {
         return <div>Загрузка...</div>;
     }
 
-    return <h1>{userName}</h1>;
+    return <div>{userName}</div>;
 };
 export default GetUsName;

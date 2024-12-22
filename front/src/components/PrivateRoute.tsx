@@ -12,9 +12,7 @@ export const PrivateRoute = () => {
     // Получаем текущий маршрут из хука useLocation
     const location = useLocation()
 
-    if (isAuthLoading) {
-        return <div>Загрузка...</div>
-    }
+    if (isAuthLoading) return null
     if (!isAuthenticated) {
         return <Navigate to="/login" state={{ from: location }} replace />
     }
