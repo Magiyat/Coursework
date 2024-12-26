@@ -47,7 +47,7 @@ export const Messages: React.FC<MessagesProps> = ({chatName}) => {
             ws.close();
         }
 
-        const ws2 = new WebSocket(`ws://localhost:8000/ws/chat/${chatName}/?token=${token.access}`);
+        const ws2 = new WebSocket(`ws://51.250.79.250:8000/ws/chat/${chatName}/?token=${token.access}`);
         setWs(ws2);
 
         const handleMessages = (e: MessageEvent) => {
