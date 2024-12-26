@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from "react";
 import api from "./http-common";
+import useAuth from "../hooks/useAuth";
 
-const GetUsName: React.FC = () => {
-    const [userName, setUserName] = useState<string | null>(null);
+const useGetUserName = () => {
     const [error, setError] = useState<string | null>(null);
-
+    const [loading, setLoading] = useState<boolean>(true);
+    const { userData, setUserData, isAuthLoading,  } = useAuth()
+    const user = userData?.username ?? null
+    const profile = userData?.profile ?? {}
     useEffect(() => {
+        if (isAuthLoading) return
+        if (user) setLoading(true)
         const fetchUserName = async () => {
+            setLoading(true)
             try {
                 // Получение токена из localStorage
                 const storedToken = localStorage.getItem('token');
@@ -30,26 +36,21 @@ const GetUsName: React.FC = () => {
 
                 // Извлечение имени из ответа
                 const name = response.data.username;
+
                 localStorage.setItem('username', name);
-                setUserName(name);
-                console.log('Имя пользователя:', name);
+                setUserData(response.data);
+                // console.log('Имя пользователя:', name);
             } catch (err: any) {
                 console.error(err);
                 setError(err.message || 'Ошибка при получении данных');
+            } finally {
+                setLoading(false)
             }
         };
 
         fetchUserName();
-    }, []); // Пустой массив зависимостей: эффект вызывается только при монтировании
+    }, [isAuthLoading]); // Пустой массив зависимостей: эффект вызывается только при монтировании
 
-    if (error) {
-        return <div>Ошибка: {error}</div>;
-    }
-
-    if (!userName) {
-        return <div>Загрузка...</div>;
-    }
-
-    return <div>{userName}</div>;
+    return {user, profile, error, loading}
 };
-export default GetUsName;
+export default useGetUserName;

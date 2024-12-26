@@ -2,13 +2,14 @@ import React, {createRef, useEffect, useState} from "react";
 import {AutoAvatar} from "../uset-comp/avatar";
 import '../trash/users.css'
 import FileUploadService from "../services/imag";
-import GetUsName from "../services/nameuser";
+import getUsName from "../services/nameuser";
+import clsx from "clsx";
 
 const User_info: React.FC = () => {
     const fileRef = createRef<HTMLInputElement>();
     const [id, setId] = useState<number | null>(null); // Состояние для хранения userId
-
     // Загружаем userId при монтировании компонента
+    const { user, loading } = getUsName()
     useEffect(() => {
         const fetchUserId = async () => {
             const fetchedId = await FileUploadService.getUserId();
@@ -35,8 +36,8 @@ const User_info: React.FC = () => {
                 />
             </div>
 
-            <div className={'user_Name'}>
-                <GetUsName/>
+            <div className={clsx('user_Name', loading && 'loader')}>
+                {user}
             </div>
         </div>
     )

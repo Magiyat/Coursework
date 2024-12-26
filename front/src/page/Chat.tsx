@@ -1,18 +1,18 @@
 import React, {useState} from "react";
-import { Messages} from "../Messenger/Messages";
+import {Messages} from "../Messenger/Messages";
 import {ChatList} from "../Messenger/chatrooms";
 import '../trash/chat.css'
 
 
 const Chat = () => {
     const [selectedChatName, setSelectedChatName] = useState<string | null>(null);
-    return(
+    return (
         <div className={'ChatPage'}>
-            <ChatList onSelectChat={setSelectedChatName} />
+            <ChatList onSelectChat={setSelectedChatName}/>
             {selectedChatName ? (
-                <Messages chatName={selectedChatName} />
+                <Messages chatName={selectedChatName}/>
             ) : (
-                <div>Выберите чат</div>
+                <div className={'communication'}>Выберите чат</div>
             )}
             {/*<ChatList/>*/}
             {/*<hr/>*/}
@@ -22,8 +22,6 @@ const Chat = () => {
         </div>
     )
 }
-
-
 
 
 export default Chat

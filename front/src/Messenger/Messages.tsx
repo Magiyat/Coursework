@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {AutoAvatar} from "../uset-comp/avatar";
+import clsx from "clsx";
+import useGetUserName from "../services/nameuser";
 
 // const user1_user2:string = 'admin_user1'
 // const ws = new WebSocket(`ws://localhost:8000/messenger/ws/chat/${user1_user2}/`);
@@ -45,13 +47,13 @@ export const Messages: React.FC<MessagesProps> = ({chatName}) => {
             ws.close();
         }
 
-        const ws2 = new WebSocket(`ws://51.250.79.250:8000/ws/chat/${chatName}/?token=${token.access}`);
+        const ws2 = new WebSocket(`ws://localhost:8000/ws/chat/${chatName}/?token=${token.access}`);
         setWs(ws2);
 
         const handleMessages = (e: MessageEvent) => {
-            console.log(e.data)
+            // console.log(e.data)
             const data = JSON.parse(e.data);
-            console.log(data.messages)
+            // console.log(data.messages)
             if (data.type === 'message_history' && Array.isArray(data.messages)) {
                 const formattedMessages = data.messages;
                 setMessages(formattedMessages);
@@ -127,8 +129,8 @@ export const Messages: React.FC<MessagesProps> = ({chatName}) => {
             <hr/>
             {!ws && <span className={'loader'}/>}
             <div className={'send_masse'}>
-                <div>
-                    <textarea className={'chat_text'} onChange={(e) => setMessage(e.currentTarget.value)}
+                <div className={'chat_text_cont'}>
+                    <textarea placeholder={'Введите сообщение..'} className={'chat_text'} onChange={(e) => setMessage(e.currentTarget.value)}
                               value={message}> </textarea>
                 </div>
                 <div>
@@ -141,16 +143,15 @@ export const Messages: React.FC<MessagesProps> = ({chatName}) => {
 //сообщение конкретное
 
 export const Message: React.FC<{ message: ChatMessageType }> = ({message}) => {
+    const { user } = useGetUserName()
+    const isOwn = user === message.user
     return (
-        <div>
-            <div>
+        <div className={clsx('message-container', isOwn && 'message-own')}>
+            <div className={'message-header'}>
                 <AutoAvatar userId={message.user} size={20}/> <b>{message.user}</b>
             </div>
-            <br/>
-            <>{message.content}</>
-            <h6>{message.timestamp}</h6>
-            <hr/>
-
+            <div className={'message-content'}>{message.content}</div>
+            <span className={'message-time'}>{new Date(message.timestamp).toLocaleString()}</span>
         </div>
     )
 }

@@ -12,8 +12,8 @@ export type ChatRoomsType = {
 export const CreateChatList: React.FC = () =>{
     const [userName, setUserName] = useState('')
     const [roomDate, setRoomDate] = useState<ChatRoomsType | null>()
-    console.log(roomDate)
-    const Find =()=>{
+
+    const findRooms = ()=>{
         const storedToken = localStorage.getItem('token');
         if (!storedToken) {
             throw new Error('Токен не найден');
@@ -47,10 +47,10 @@ export const CreateChatList: React.FC = () =>{
     }
 
     return(
-        <>
-            <textarea className={'chat_text_us'} onChange={(e)=>setUserName(e.currentTarget.value)} value={userName}> </textarea>
-            <button className={'chat_button'} onClick={Find}>Найти</button>
-        </>
+        <div className={'chat_search'}>
+            <input placeholder={'Введите имя'} className={'chat_text_us'} onChange={(e)=>setUserName(e.currentTarget.value)} value={userName}/>
+            <button className={'chat_button'} onClick={findRooms}>Найти</button>
+        </div>
 
 )
 }

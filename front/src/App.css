@@ -17,7 +17,7 @@ body{
 .nav {
   height: 35px;
   position: sticky;
-  border: 1px solid white;
+  border: 1px solid #252c46;
   top: 10px;
   z-index: 1;
   padding: 10px;
@@ -33,7 +33,10 @@ body{
   margin-bottom: 30px;
 }
 .namexz{
-  color: #5188da;
+  /*color: linear-gradient(180deg, #00c6fb, #005bea);*/
+  background-image: linear-gradient(180deg, #00c6fb, #005bea);
+  color: transparent;
+  -webkit-background-clip: text;
   font-size: 25px;
   font-weight: bold;
   font-family: "Comic Sans MS", serif;
@@ -45,7 +48,7 @@ nav a {
   font-weight: bold;
 }
 nav a:hover {
-  color: #7bbaff; /* Меняем цвет ссылок при наведении */
+  color: #0091f1; /* Меняем цвет ссылок при наведении */
 }
 /*#root{*/
 /*  background-color: #282c34;*/

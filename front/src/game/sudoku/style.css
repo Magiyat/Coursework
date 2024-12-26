@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    color: #aec3f9;
+    color: #83c5f3;
 }
 
 .container .difficulty {
@@ -30,7 +30,7 @@
     width: 95px;
     cursor: pointer;
     background-color: #14172f;
-    color: #f7d03f;
+    color: #b8dcf5;
     border: none;
     border-radius: 6px;
     font-weight: 700;

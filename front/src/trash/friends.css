@@ -1,0 +1,47 @@
+.friends_container {
+    width: 100vh;
+    margin: auto;
+    max-width: 1400px;
+    padding: 10px;
+    border: 1px solid #252c46;
+    border-radius: 8px;
+    background-color: rgba(29, 32, 59, 0.44);
+}
+.friends_search {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+
+}
+.friend-element-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.friends_button{
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background: linear-gradient(90deg, rgb(17, 94, 215) 0%, rgb(13, 140, 225) 40%, rgb(12, 171, 215) 100%);
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    padding: 5px 10px;
+    float: right;
+}
+.fined-container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: rgb(44, 49, 93);
+
+}
+.fined-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}

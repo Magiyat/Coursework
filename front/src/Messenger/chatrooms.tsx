@@ -35,7 +35,7 @@ export const ChatList: React.FC<ChatListProps> = ({ onSelectChat }) => {
                             Authorization: "Bearer " + token.access,
                         },
                     });
-                console.log(response.data)
+                // console.log(response.data)
                 setChatRooms(response.data);
             } catch (err: any) {
                 setError(err.response?.data?.detail || 'Error fetching chat rooms');
