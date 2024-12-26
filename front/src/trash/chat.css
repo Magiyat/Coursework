@@ -97,18 +97,25 @@
 }
 
 .communication{
+    max-height: 44px;
     margin: 10px;
     background-color: #1d2141;
+    width: 90%;
+    min-width: 40px;
     max-width: 900px;
-    width: 900px;
-
-    /*min-height: calc(100vh - 170px);*/
+    /*width: 900px;*/
+    /*width: 90%;*/
+    min-height: calc(100vh - 211px);
 }
 .send_masse{
     display: flex;
+
 }
 .mass{
     min-height: calc(100vh - 230px);
-    overflowY: 'auto';
     margin: 10px;
+    max-height: 30px;
+    overflow-x: hidden; /* отключает горизонтальный скролл */
+    overflow-y: scroll;
+    width: 98%;
 }

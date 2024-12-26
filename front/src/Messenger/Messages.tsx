@@ -15,6 +15,10 @@ type MessagesProps = {
 //набор сообщений
 export const Messages: React.FC<MessagesProps> = ({chatName}) => {
     const [massages, setMessages] = useState<ChatMessageType[]>([])
+    useEffect(() => {
+        // При смене чата очищаем сообщения
+        setMessages([]);
+    }, [chatName]);
     const storedToken = localStorage.getItem('token');
     if (!storedToken) {
         throw new Error('Токен не найден');
@@ -27,44 +31,98 @@ export const Messages: React.FC<MessagesProps> = ({chatName}) => {
         throw new Error('Токен не найден');
     }
     const [ws, setWs] = useState<WebSocket>()
+
+    // useEffect(() => {
+    //     if (ws) {
+    //         ws.close()
+    //     }
+    //     const ws2 = new WebSocket(`ws://localhost:8000/ws/chat/${chatName}/?token=${token.access}`)
+    //     setWs(ws2)
+    // }, [chatName])
+
     useEffect(() => {
         if (ws) {
-            ws.close()
+            ws.close();
         }
-        const ws2 = new WebSocket(`ws://localhost:8000/ws/chat/${chatName}/?token=${token.access}`)
-        setWs(ws2)
-    }, [chatName])
-    useEffect(() => {
-        const getMes = (e: MessageEvent) => {
-            let newMess = JSON.parse(e.data)
-            setMessages((pedMess) => [...pedMess, newMess])//получение сообщения
-        }
-        ws && ws.addEventListener('message', getMes)
-        return () => ws?.removeEventListener('message', getMes)
-    }, [ws])
 
+        const ws2 = new WebSocket(`ws://51.250.79.250:8000/ws/chat/${chatName}/?token=${token.access}`);
+        setWs(ws2);
+
+        const handleMessages = (e: MessageEvent) => {
+            console.log(e.data)
+            const data = JSON.parse(e.data);
+            console.log(data.messages)
+            if (data.type === 'message_history' && Array.isArray(data.messages)) {
+                const formattedMessages = data.messages;
+                setMessages(formattedMessages);
+                // Обработка истории сообщений
+
+            } else {
+                // Если пришло новое сообщение
+                setMessages((prevMessages) => [...prevMessages, data]);
+            }
+        };
+
+        ws2.addEventListener('message', handleMessages);
+
+        return () => {
+            ws2.close(); // Закрываем WebSocket при размонтировании
+            ws2.removeEventListener('message', handleMessages);
+        };
+    }, [chatName]);
+    // useEffect(() => {
+    //     const getMes = (e: MessageEvent) => {
+    //         let newMess = JSON.parse(e.data)
+    //         setMessages((pedMess) => [...pedMess, newMess])//получение сообщения
+    //         console.log(newMess);
+    //     }
+    //     ws && ws.addEventListener('message', getMes)
+    //     return () => ws?.removeEventListener('message', getMes)
+    // }, [ws])
+    //
+    // useEffect(() => {
+    //     const getMes = (e: MessageEvent) => {
+    //         const data = JSON.parse(e.data);
+    //
+    //         if (Array.isArray(data)) {
+    //             // Если пришла история сообщений
+    //             const formattedMessages = data.map((msg: any) => ({
+    //                 id: msg.id,
+    //                 user: msg.username,
+    //                 content: msg.text,
+    //                 timestamp: msg.created_at,
+    //             }));
+    //             setMessages(formattedMessages); // Заменяем текущие сообщения историей
+    //         } else {
+    //             // Если пришло новое сообщение
+    //             setMessages((prevMessages) => [...prevMessages, data]);
+    //         }
+    //
+    //         console.log(data);
+    //     };
+    //
+    //     ws?.addEventListener('message', getMes);
+    //     return () => ws?.removeEventListener('message', getMes);
+    // }, [ws]);
     const [message, setMessage] = useState('')
-    // console.log(UserName)
+
     const sendMassege = () => {
         if (!message || !ws) {
             return
         }
         const newMessage = {
-            // id: Date.now(), // временный ID
-            // user: UserName, // замените на реальное имя пользователя
-            // content: message,
             message: message,
-            // timestamp: new Date().toISOString(),
         };
         ws.send(JSON.stringify(newMessage)); // Отправляем сообщение как JSON
         setMessage('');
 
     }
+
     return (
         <div className={'communication'}>
             {/*<hr/>*/}
             <div className={'mass'}>
-                {massages.map((m) => <Message key={m.id} message={m}/>)}
+                {massages.slice().reverse().map((m) => <Message key={m.id} message={m}/>)}
             </div>
             <hr/>
             {!ws && <span className={'loader'}/>}
